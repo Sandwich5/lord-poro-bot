@@ -1,0 +1,35 @@
+plugins {
+    id 'groovy'
+    id 'java'
+}
+
+group 'com.poro.sandwich5'
+version '2.0_SNAPSHOT'
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+    jcenter()
+    maven { url 'https://jitpack.io' }
+}
+
+dependencies {
+    compile 'org.codehaus.groovy:groovy-all:2.3.11'
+    compile 'net.dv8tion:JDA:4.1.1_101'
+    compile 'com.github.taycaldwell:riot-api-java:4.3.0'
+    implementation 'com.sedmelluq:lavaplayer:1.3.43'
+    testCompile group: 'junit', name: 'junit', version: '4.12'
+}
+
+task fatJar(type: Jar) {
+    manifest {
+        attributes 'Implementation-Title': 'Lord-Teemo',
+            'Implementation-Version': version,
+            'Main-Class': 'src.Bot'
+    }
+    baseName = project.name + '-all'
+    from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
+    with jar
+}
